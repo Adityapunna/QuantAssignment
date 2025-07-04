@@ -1,0 +1,5 @@
+fastapi == 0.105.0
+pandas == 2.1.4
+uvicorn ==  0.25.0
+pyarrow == 14.0.2
+pandas-stubs==2.3.0.250703
