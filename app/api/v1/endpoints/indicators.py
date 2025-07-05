@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Query, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi import Request
 import pandas as pd
 
+from app.services.loader import load_and_clean_data
 from app.utils.data_related_utils import clean_stock_data
 from app.services.indicators_service import (
     calculate_simple_moving_average,
@@ -10,6 +12,7 @@ from app.services.indicators_service import (
     calculate_macd,
     calculate_bollinger_bands
 )
+
 from config import DATA_DIR, DATE_COL
 from app.services.auth_service import get_current_user
 from app.db.database import get_db
@@ -18,9 +21,6 @@ from app.db.models import User
 
 router = APIRouter()
 
-def load_and_clean_data():
-    df = pd.read_parquet(DATA_DIR / "stocks_ohlc_data.parquet")
-    return clean_stock_data(df)
 
 @router.get("/hello")
 def hello_world():
@@ -28,6 +28,7 @@ def hello_world():
 
 @router.get("/indicators/sma")
 def get_sma(
+    request: Request,
     stock_symbol: str = Query(...),
     start_date: str = Query(...),
     end_date: str = Query(...),
@@ -37,7 +38,7 @@ def get_sma(
 ):
     print("entered sma")
     check_access(user, "SMA", start_date, end_date)
-    df = load_and_clean_data()
+    df = request.app.state.stock_data
     result_df = calculate_simple_moving_average(df, stock_symbol, period, start_date, end_date)
     user.requests_today += 1
     db.commit()
@@ -45,6 +46,7 @@ def get_sma(
 
 @router.get("/indicators/ema")
 def get_ema(
+    request: Request,
     stock_symbol: str = Query(...),
     start_date: str = Query(...),
     end_date: str = Query(...),
@@ -53,7 +55,7 @@ def get_ema(
     user: User = Depends(get_current_user)
 ):
     check_access(user, "EMA", start_date, end_date)
-    df = load_and_clean_data()
+    df = request.app.state.stock_data
     result_df = calculate_exponential_moving_average(df, stock_symbol, period, start_date, end_date)
     user.requests_today += 1
     db.commit()
@@ -61,6 +63,7 @@ def get_ema(
 
 @router.get("/indicators/rsi")
 def get_rsi(
+    request: Request,
     stock_symbol: str = Query(...),
     start_date: str = Query(...),
     end_date: str = Query(...),
@@ -69,7 +72,7 @@ def get_rsi(
     user: User = Depends(get_current_user)
 ):
     check_access(user, "RSI", start_date, end_date)
-    df = load_and_clean_data()
+    df = request.app.state.stock_data
     result_df = calculate_rsi(df, stock_symbol, period, start_date, end_date)
     user.requests_today += 1
     db.commit()
@@ -77,6 +80,7 @@ def get_rsi(
 
 @router.get("/indicators/macd")
 def get_macd(
+    request: Request,
     stock_symbol: str = Query(...),
     start_date: str = Query(...),
     end_date: str = Query(...),
@@ -87,7 +91,7 @@ def get_macd(
     user: User = Depends(get_current_user)
 ):
     check_access(user, "MACD", start_date, end_date)
-    df = load_and_clean_data()
+    df = request.app.state.stock_data
     result_df = calculate_macd(df, stock_symbol, fast_period, slow_period, signal_period, start_date, end_date)
     user.requests_today += 1
     db.commit()
@@ -95,6 +99,7 @@ def get_macd(
 
 @router.get("/indicators/bollinger")
 def get_bollinger(
+    request: Request,
     stock_symbol: str = Query(...),
     start_date: str = Query(...),
     end_date: str = Query(...),
@@ -104,7 +109,7 @@ def get_bollinger(
     user: User = Depends(get_current_user)
 ):
     check_access(user, "Bollinger", start_date, end_date)
-    df = load_and_clean_data()
+    df = request.app.state.stock_data
     result_df = calculate_bollinger_bands(df, stock_symbol, period, num_std_dev, start_date, end_date)
     user.requests_today += 1
     db.commit()
