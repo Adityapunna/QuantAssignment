@@ -39,7 +39,11 @@ def get_sma(
     print("entered sma")
     check_access(user, "SMA", start_date, end_date)
     df = request.app.state.stock_data
-    result_df = calculate_simple_moving_average(df, stock_symbol, period, start_date, end_date)
+
+    try:
+        result_df = calculate_simple_moving_average(df, stock_symbol, period, start_date, end_date)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to calculate SMA: {str(e)}")
     user.requests_today += 1
     db.commit()
     return result_df.to_dict(orient="records")
@@ -56,7 +60,11 @@ def get_ema(
 ):
     check_access(user, "EMA", start_date, end_date)
     df = request.app.state.stock_data
-    result_df = calculate_exponential_moving_average(df, stock_symbol, period, start_date, end_date)
+
+    try:
+        result_df = calculate_exponential_moving_average(df, stock_symbol, period, start_date, end_date)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to calculate EMA: {str(e)}")
     user.requests_today += 1
     db.commit()
     return result_df.to_dict(orient="records")
@@ -73,7 +81,12 @@ def get_rsi(
 ):
     check_access(user, "RSI", start_date, end_date)
     df = request.app.state.stock_data
-    result_df = calculate_rsi(df, stock_symbol, period, start_date, end_date)
+
+    try:
+        result_df = calculate_rsi(df, stock_symbol, period, start_date, end_date)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to calculate RSI: {str(e)}")
+
     user.requests_today += 1
     db.commit()
     return result_df.to_dict(orient="records")
@@ -92,7 +105,12 @@ def get_macd(
 ):
     check_access(user, "MACD", start_date, end_date)
     df = request.app.state.stock_data
-    result_df = calculate_macd(df, stock_symbol, fast_period, slow_period, signal_period, start_date, end_date)
+
+    try:
+        result_df = calculate_macd(df, stock_symbol, fast_period, slow_period, signal_period, start_date, end_date)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to calculate RSI: {str(e)}")
+
     user.requests_today += 1
     db.commit()
     return result_df.to_dict(orient="records")
@@ -110,7 +128,12 @@ def get_bollinger(
 ):
     check_access(user, "Bollinger", start_date, end_date)
     df = request.app.state.stock_data
-    result_df = calculate_bollinger_bands(df, stock_symbol, period, num_std_dev, start_date, end_date)
+
+    try:
+        result_df = calculate_bollinger_bands(df, stock_symbol, period, num_std_dev, start_date, end_date)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to calculate RSI: {str(e)}")
+
     user.requests_today += 1
     db.commit()
     return result_df.to_dict(orient="records")

@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from datetime import datetime
+from datetime import datetime, date
 
 def check_access(user, indicator: str, start_date: str, end_date: str):
     allowed_indicators = {
@@ -7,6 +7,10 @@ def check_access(user, indicator: str, start_date: str, end_date: str):
         "Pro": ["SMA", "EMA", "RSI", "MACD"],
         "Premium": ["SMA", "EMA", "RSI", "MACD", "Bollinger"]
     }
+
+    if user.last_request_date != date.today():
+        user.requests_today = 0
+        user.last_request_date = date.today()
 
     days_requested = (datetime.strptime(end_date, "%Y-%m-%d") - datetime.strptime(start_date, "%Y-%m-%d")).days
 
