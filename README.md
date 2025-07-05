@@ -71,7 +71,7 @@ uvicorn main:app --reload
 
 ---
 
-## 🛠 Features
+##  Features
 
 -  Secure endpoints with JWT
 -  Tier-based access (Free, Pro, Premium)
