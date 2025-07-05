@@ -28,3 +28,6 @@ HIST_COL = 'hist'
 # Indicator config defaults
 DEFAULT_SMA_PERIOD = 20
 DEFAULT_RSI_PERIOD = 14
+
+# Database connections
+DATABASE_URL = "postgresql://postgres:admin@localhost/userdb" # user = postgres # pass = admin # port 5432
