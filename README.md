@@ -120,9 +120,55 @@ All accept:
 - `start_date`, `end_date`
 - `period` (or custom args)
 
+#### /indicators/sma
+
+- **stock_symbol**: `str` (e.g., "AAPL")
+- **start_date**: `YYYY-MM-DD`
+- **end_date**: `YYYY-MM-DD`
+- **period**: `int` (default: 20)
+
 ---
 
-## 👤 Subscription Tiers
+#### /indicators/ema
+
+- **stock_symbol**: `str`
+- **start_date**: `YYYY-MM-DD`
+- **end_date**: `YYYY-MM-DD`
+- **period**: `int` (default: 20)
+
+---
+
+#### /indicators/rsi
+
+- **stock_symbol**: `str`
+- **start_date**: `YYYY-MM-DD`
+- **end_date**: `YYYY-MM-DD`
+- **period**: `int` (default: 14)
+
+---
+
+#### /indicators/macd
+
+- **stock_symbol**: `str`
+- **start_date**: `YYYY-MM-DD`
+- **end_date**: `YYYY-MM-DD`
+- **fast_period**: `int` (default: 12)
+- **slow_period**: `int` (default: 26)
+- **signal_period**: `int` (default: 9)
+
+---
+
+#### /indicators/bollinger
+
+- **stock_symbol**: `str`
+- **start_date**: `YYYY-MM-DD`
+- **end_date**: `YYYY-MM-DD`
+- **period**: `int` (default: 20)
+- **num_std_dev**: `int` (default: 2)
+
+---
+
+##  Subscription Tiers
 
 | Tier     | Indicators        | Max Days | Daily Requests |
 |----------|-------------------|----------|----------------|

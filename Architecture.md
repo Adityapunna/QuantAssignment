@@ -1,7 +1,7 @@
 
 ---
 # Architecture – Backend Assignment
-## 📊 System Architecture Flow
+##  System Architecture Flow
 
 ```text
 [Client]
@@ -93,12 +93,12 @@
 ##  Scalability Considerations
 
 | Concern             | Current Approach                  | Future Ready? |
-|---------------------|-----------------------------------|----------------|
-| Large Data File     | Loaded once, stored in memory     | ✅             |
-| Request Limits      | Stored in DB                      | ✅             |
-| Caching             | Optional layer (Redis)            | ⚪             |
-| Async Support       | FastAPI + Uvicorn (ASGI) enabled  | ✅             |
-| Deployment          | Docker-compatible                 | ✅             |
+|---------------------|-----------------------------------|---------------|
+| Large Data File     | Loaded once, stored in memory     | Yes           |
+| Request Limits      | Stored in DB                      | Yes           |
+| Caching             | Optional layer (Redis)            | Pending       |
+| Async Support       | FastAPI + Uvicorn (ASGI) enabled  | Yes           |
+| Deployment          | Docker-compatible                 | Yes           |
 
 ---
 
