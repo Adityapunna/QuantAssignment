@@ -1,6 +1,25 @@
 
 ---
 # Architecture – Backend Assignment
+## 📊 System Architecture Flow
+
+```text
+[Client]
+   ↓
+[FastAPI Application]
+   ↓
+[JWT Auth Layer (Authentication)]
+   ↓
+[Tier-Based Access Control & Rate Limiter]
+   ↓
+[Request Validation (Dates, Indicator Type)]
+   ↓
+[Parquet Stock Data (Loaded in RAM)]
+   ↓
+[Indicator Calculators (SMA, EMA, RSI, etc.)]
+   ↓
+[PostgreSQL DB (User Info + Auth + Usage Logs)]
+```
 
 ##  Tech Stack
 
